@@ -1,12 +1,14 @@
 from django.db import models
 
 from core.models import BaseModel
+
 from apps.auto_parks.models import AutoParkModel
 
 
 class CarModel(BaseModel):
     class Meta:
         db_table = 'cars'
+        ordering = ('id',)
 
     brand = models.CharField(max_length=25)
     price = models.IntegerField()
