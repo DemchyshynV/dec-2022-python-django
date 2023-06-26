@@ -33,6 +33,11 @@ class UserSerializer(serializers.ModelSerializer):
             }
         }
 
+    def validate_email(self, email: str):
+        if not email.endswith('@gmail.com'):
+            raise serializers.ValidationError('email must be gmail.com host')
+        return email
+
     @transaction.atomic
     def create(self, validated_data: dict):
         profile = validated_data.pop('profile')
