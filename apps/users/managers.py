@@ -24,3 +24,6 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(email, password, **extra_kwargs)
         return user
+
+    def all_with_profiles(self):
+        return self.select_related('profile')
