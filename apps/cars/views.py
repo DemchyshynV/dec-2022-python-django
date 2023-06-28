@@ -1,7 +1,7 @@
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from core.permission.is_superUser import IsSuperUser
+from core.permission.is_superuser import IsSuperUser
 
 from .filters import CarFilter
 from .models import CarModel
