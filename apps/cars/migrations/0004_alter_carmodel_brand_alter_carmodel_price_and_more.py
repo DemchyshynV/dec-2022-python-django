@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('cars', '0003_alter_carmodel_options_carmodel_body'),
     ]
@@ -14,16 +13,20 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='carmodel',
             name='brand',
-            field=models.CharField(max_length=25, validators=[django.core.validators.RegexValidator('^[A-Z][a-zA-Z\\d]{1,24}$', 'First letter uppercase min 2 max 25 ch')]),
+            field=models.CharField(max_length=25, validators=[
+                django.core.validators.RegexValidator('^[A-Z][a-zA-Z\\d]{1,24}$',
+                                                      'First letter uppercase min 2 max 25 ch')]),
         ),
         migrations.AlterField(
             model_name='carmodel',
             name='price',
-            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(1000000)]),
+            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0),
+                                                  django.core.validators.MaxValueValidator(1000000)]),
         ),
         migrations.AlterField(
             model_name='carmodel',
             name='year',
-            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(1990), django.core.validators.MaxValueValidator(2023)]),
+            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(1990),
+                                                  django.core.validators.MaxValueValidator(2023)]),
         ),
     ]

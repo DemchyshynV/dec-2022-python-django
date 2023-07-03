@@ -24,7 +24,6 @@ class AutoParkListCreateView(ListCreateAPIView):
         return (IsAdminUser(),)
     # permission_classes = (IsAdminUser,)
 
-
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     print(queryset[0].__dict__)
@@ -43,7 +42,8 @@ class AutoParkRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
 class AutoParkCarListCreateView(GenericAPIView):
     queryset = AutoParkModel.objects.all()
 
-    def get(self, *args, **kwargs):
+    @staticmethod
+    def get(*args, **kwargs):
         pk = kwargs['pk']
 
         if not AutoParkModel.objects.filter(pk=pk).exists():

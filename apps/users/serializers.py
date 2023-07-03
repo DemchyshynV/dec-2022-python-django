@@ -46,7 +46,8 @@ class UserSerializer(serializers.ModelSerializer):
             }
         }
 
-    def validate_email(self, email: str):
+    @staticmethod
+    def validate_email(email: str):
         if not email.endswith('@gmail.com'):
             raise serializers.ValidationError('email must be gmail.com host')
         return email

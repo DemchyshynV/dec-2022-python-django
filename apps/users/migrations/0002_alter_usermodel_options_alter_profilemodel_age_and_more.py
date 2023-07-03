@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0001_initial'),
     ]
@@ -19,26 +18,35 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profilemodel',
             name='age',
-            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(16), django.core.validators.MaxValueValidator(150)]),
+            field=models.IntegerField(validators=[django.core.validators.MinValueValidator(16),
+                                                  django.core.validators.MaxValueValidator(150)]),
         ),
         migrations.AlterField(
             model_name='profilemodel',
             name='name',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[А-ЯЁІЇЄҐ][А-яёЁіІїЇєЄґҐ]{1,49}$', ['Only cyrillic', 'First letter uppercase', 'min 2 max 50 ch'])]),
+            field=models.CharField(max_length=50, validators=[
+                django.core.validators.RegexValidator('^[А-ЯЁІЇЄҐ][А-яёЁіІїЇєЄґҐ]{1,49}$',
+                                                      ['Only cyrillic', 'First letter uppercase', 'min 2 max 50 ch'])]),
         ),
         migrations.AlterField(
             model_name='profilemodel',
             name='surname',
-            field=models.CharField(max_length=50, validators=[django.core.validators.RegexValidator('^[А-ЯЁІЇЄҐ][А-яёЁіІїЇєЄґҐ]{1,49}$', ['Only cyrillic', 'First letter uppercase', 'min 2 max 50 ch'])]),
+            field=models.CharField(max_length=50, validators=[
+                django.core.validators.RegexValidator('^[А-ЯЁІЇЄҐ][А-яёЁіІїЇєЄґҐ]{1,49}$',
+                                                      ['Only cyrillic', 'First letter uppercase', 'min 2 max 50 ch'])]),
         ),
         migrations.AlterField(
             model_name='usermodel',
             name='password',
-            field=models.CharField(max_length=128, validators=[django.core.validators.RegexValidator('^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=(?:.*[`~!@#$%^&*()\\-_+=\\\\\\|\\\'\\"\\;\\:\\/?.>,<\\[\\]\\{\\}]){2,})[a-zA-Z\\d`~!@#$%^&*()\\-_+=\\\\\\|\\\'\\"\\;\\:\\/?.>,<\\[\\]\\{\\}]{8,30}$', ['min 1 lowercase ch', 'min 1 uppercase ch', 'min 1 digit', 'min 1 special character', 'length 8-30'])]),
+            field=models.CharField(max_length=128, validators=[django.core.validators.RegexValidator(
+                '^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=(?:.*[`~!@#$%^&*()\\-_+=\\\\\\|\\\'\\"\\;\\:\\/?.>,<\\[\\]\\{\\}]){2,})[a-zA-Z\\d`~!@#$%^&*()\\-_+=\\\\\\|\\\'\\"\\;\\:\\/?.>,<\\[\\]\\{\\}]{8,30}$',
+                ['min 1 lowercase ch', 'min 1 uppercase ch', 'min 1 digit', 'min 1 special character',
+                 'length 8-30'])]),
         ),
         migrations.AlterField(
             model_name='usermodel',
             name='profile',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user', to='users.profilemodel'),
+            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user',
+                                       to='users.profilemodel'),
         ),
     ]

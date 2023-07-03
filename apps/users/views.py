@@ -126,6 +126,7 @@ class UnBlockAdminUserView(UnBlockUserView):
 class TestEmail(GenericAPIView):
     permission_classes = (AllowAny,)
 
-    def get(self, *args, **kwargs):
+    @staticmethod
+    def get(*args, **kwargs):
         EmailService.test_email()
         return Response('ok')

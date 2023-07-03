@@ -10,6 +10,8 @@ class CarQuerySet(models.QuerySet):
 
     def year_less(self, year):
         return self.filter(year__lt=year)
+
+
 class CarManager(models.Manager):
 
     def get_queryset(self):

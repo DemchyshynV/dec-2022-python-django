@@ -16,7 +16,7 @@ class CarFilter(filters.FilterSet):
             'id',
             'brand',
             'year',
-            ('price','asd')
+            ('price', 'asd')
         )
     )
     # class Meta:
