@@ -16,15 +16,17 @@ UserModel: User = get_user_model()
 class UserAvatarListSerializer(serializers.Serializer):
     images = serializers.ListField(child=serializers.ImageField())
 
-    def to_representation(self, instance):
-        return UserSerializer(self.context['profile'].user, context={'request':self.context['request']}).data
+    def to_representation(self, instance): # instance це те що повертається з метода create
+        return UserSerializer(instance, context={'request': self.context['request']}).data
+
+    # def to_representation(self, instance):
+    #     return UserSerializer(self.context['profile'].user, context={'request':self.context['request']}).data
 
     def create(self, validated_data):
         profile = self.context['profile']
-        print(validated_data)
         for image in validated_data['images']:
             AvatarModel.objects.create(image=image, profile=profile)
-        return profile
+        return profile.user
 
 
 class AvatarSerializer(serializers.ModelSerializer):
