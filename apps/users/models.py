@@ -23,7 +23,14 @@ class ProfileModel(BaseModel):
         V.MinValueValidator(16),
         V.MaxValueValidator(150),
     ])
-    avatar = models.ImageField(upload_to=upload_avatar, blank=True)
+
+
+class AvatarModel(BaseModel):
+    class Meta:
+        db_table = 'profile_avatars'
+
+    image = models.ImageField(upload_to=upload_avatar)
+    profile = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, related_name='avatars')
 
 
 class UserModel(AbstractBaseUser, PermissionsMixin, BaseModel):

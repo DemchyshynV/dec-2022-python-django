@@ -1,9 +1,11 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, GenericAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
+
+from _testcapi import raise_exception
 
 from core.permission import IsAdminOrWriteOnlyPermission, IsSuperUser
 from core.services.email_service import EmailService
@@ -11,7 +13,7 @@ from core.services.email_service import EmailService
 from apps.users.models import UserModel as User
 
 from .filters import UserFilter
-from .serializers import AvatarSerializer, UserSerializer
+from .serializers import AvatarSerializer, UserAvatarListSerializer, UserSerializer
 
 UserModel: User = get_user_model()
 
@@ -27,24 +29,26 @@ class UserListCreateView(ListCreateAPIView):
 
 
 # class UserAddAvatarView(GenericAPIView):
-#     serializer_class = AvatarSerializer
+#     serializer_class = UserAvatarListSerializer
 #
-#     def put(self, *args, **kwargs):
-#         serializer = self.get_serializer(self.request.user.profile, data=self.request.FILES)
+#     def get_serializer_context(self):
+#         context = super().get_serializer_context()
+#         context |= {'profile': self.request.user.profile}
+#         return context
+#
+#     def post(self, *args, **kwargs):
+#         serializer = self.get_serializer(data=self.request.FILES)
 #         serializer.is_valid(raise_exception=True)
 #         serializer.save()
 #         return Response(serializer.data, status.HTTP_200_OK)
 
-class UserAddAvatarView(UpdateAPIView):
-    serializer_class = AvatarSerializer
-    http_method_names = ('put',)
+class UserAddAvatarView(CreateAPIView):
+    serializer_class = UserAvatarListSerializer
 
-    def get_object(self):
-        return UserModel.objects.all_with_profiles().get(pk=self.request.user.pk).profile
-
-    def perform_update(self, serializer):
-        self.get_object().avatar.delete()
-        super().perform_update(serializer)
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context |= {'profile': self.request.user.profile}
+        return context
 
 
 class UserToAdminView(GenericAPIView):

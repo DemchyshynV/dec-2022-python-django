@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 from core.services.email_service import EmailService
 
+from apps.users.models import AvatarModel
 from apps.users.models import UserModel as User
 
 from .models import ProfileModel
@@ -12,10 +13,32 @@ from .models import ProfileModel
 UserModel: User = get_user_model()
 
 
+class UserAvatarListSerializer(serializers.Serializer):
+    images = serializers.ListField(child=serializers.ImageField())
+
+    def to_representation(self, instance):
+        return UserSerializer(self.context['profile'].user, context={'request':self.context['request']}).data
+
+    def create(self, validated_data):
+        profile = self.context['profile']
+        print(validated_data)
+        for image in validated_data['images']:
+            AvatarModel.objects.create(image=image, profile=profile)
+        return profile
+
+
+class AvatarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AvatarModel
+        fields = ('image',)
+
+
 class ProfileSerializer(serializers.ModelSerializer):
+    avatars = AvatarSerializer(read_only=True, many=True)
+
     class Meta:
         model = ProfileModel
-        fields = ('id', 'name', 'surname', 'age', 'avatar')
+        fields = ('id', 'name', 'surname', 'age', 'avatars')
 
 
 class AvatarSerializer(serializers.ModelSerializer):
