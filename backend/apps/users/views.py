@@ -5,6 +5,8 @@ from rest_framework.generics import GenericAPIView, ListCreateAPIView, UpdateAPI
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 
+from drf_yasg.utils import no_body, swagger_auto_schema
+
 from core.permission import IsAdminOrWriteOnlyPermission, IsSuperUser
 from core.services.email_service import EmailService
 
@@ -26,15 +28,6 @@ class UserListCreateView(ListCreateAPIView):
         return super().get_queryset().exclude(pk=self.request.user.pk)
 
 
-# class UserAddAvatarView(GenericAPIView):
-#     serializer_class = AvatarSerializer
-#
-#     def put(self, *args, **kwargs):
-#         serializer = self.get_serializer(self.request.user.profile, data=self.request.FILES)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response(serializer.data, status.HTTP_200_OK)
-
 class UserAddAvatarView(UpdateAPIView):
     serializer_class = AvatarSerializer
     http_method_names = ('put',)
@@ -50,10 +43,12 @@ class UserAddAvatarView(UpdateAPIView):
 class UserToAdminView(GenericAPIView):
     permission_classes = (IsSuperUser,)
     queryset = UserModel.objects.all()
+    serializer_class = UserSerializer
 
     def get_queryset(self):
         return super().get_queryset().exclude(pk=self.request.user.pk)
 
+    @swagger_auto_schema(request_body=no_body)
     def patch(self, *args, **kwargs):
         user = self.get_object()
         if not user.is_active:

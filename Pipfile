@@ -9,11 +9,10 @@ mysqlclient = "*"
 django-filter = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
-django-cors-headers = "*"
+drf-yasg = "==1.21.4"
 
 [dev-packages]
 isort = "*"
-django-dotenv = "*"
 
 [requires]
 python_version = "3.11"

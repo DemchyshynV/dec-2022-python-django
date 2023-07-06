@@ -4,17 +4,13 @@ services:
   app:
     build:
       context: .
-    ports:
-      - "8888:8000"
     env_file:
       - .env
     volumes:
       - ./backend:/app
-    depends_on:
-      - db
     restart: on-failure
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_db && python manage.py runserver 0.0.0.0:8000"
 
   db:
     image: mysql:8
@@ -33,3 +29,4 @@ services:
     volumes:
       - ./client:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/static:/usr/usr/share/nginx/doc
