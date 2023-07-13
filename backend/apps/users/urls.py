@@ -13,7 +13,7 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', UserListCreateView.as_view()),
+    path('', UserListCreateView.as_view(), name='users_list_create'),
     path('/avatar', UserAddAvatarView.as_view()),
     path('/<int:pk>/to_admin', UserToAdminView.as_view()),
     path('/<int:pk>/to_user', AdminToUserView.as_view()),
